@@ -4,7 +4,7 @@ import tempfile
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_groq import ChatGroq
 
 st.set_page_config(page_title="RAG Document Assistant", page_icon="📄")
@@ -27,7 +27,7 @@ if uploaded_file and groq_api_key:
 
     with st.spinner("Creating embeddings..."):
         embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        vectorstore = Chroma.from_documents(documents=chunks, embedding=embeddings)
+        vectorstore = FAISS.from_documents(documents=chunks, embedding=embeddings)
 
     st.success(f"PDF loaded! {len(chunks)} chunks created.")
 
